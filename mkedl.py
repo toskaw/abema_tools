@@ -62,7 +62,7 @@ records = [flatten(r) if isinstance(r, dict) else {'value': r} for r in records]
 with open(output_path, mode='w', newline='') as f:
     writer = csv.writer(f, delimiter='\t')
     for obj in records:
-        if 'endTimeMs' in obj and 'startTimeMs' in obj:
+        if 'endTimeMs' in obj:
             s = float(obj.get('startTimeMs', 0)) / 1000
             e = float(obj['endTimeMs']) / 1000
             writer.writerow([str(s),str(e),'3'])
