@@ -32,7 +32,7 @@ def mkedl(file, force=False):
     output_path = os.path.splitext(input_path)[0] + '.edl'
 
     if os.path.exists(output_path) and (not force):
-        sys.exit(1)
+        return 0
 
     pattern = r"\[(.*)\]"
 
@@ -43,7 +43,7 @@ def mkedl(file, force=False):
         video_id = m.group(1)
     else:
         print("abemaのvideo_idが見つかりません")
-        sys.exit(1)
+        return 0
     
     # 1. JSONの読み込み
     try:
@@ -78,8 +78,10 @@ if __name__ == '__main__':
     parser.add_argument("-f", "--force", help="edlが存在したら上書きする", action="store_true")
 
     args = parser.parse_args()
-    
-    for file in args.filename:
-        mkedl(file, args.force)
 
+    for file in args.filename:
+        try:
+            mkedl(file, args.force)
+        except Exception:
+            continue
 
